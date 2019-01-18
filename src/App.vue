@@ -1,12 +1,40 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <app-welcome 
+      v-show="!isLoaded" 
+      :showBtn="showBtn"
+      @changeLoaded="onLoadedChange"></app-welcome>
+    <router-view v-show="isLoaded"/>
   </div>
 </template>
+
+<script>
+import Welcome from '@/components/Welcome';
+
+export default {
+  data() {
+    return {
+      isLoaded: false,
+      showBtn: false,
+      firtTimeOut: ''
+    }
+  },
+  components: {
+    appWelcome: Welcome,
+  },
+  methods: {
+    onLoadedChange(e) {
+      this.isLoaded = e;
+    }
+  },
+  mounted() {
+    this.firtTimeOut = setTimeout(() => {
+      this.showBtn = true;
+    }, 2000);
+  }
+}
+</script>
+
 
 <style>
 #app {
