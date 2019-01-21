@@ -1,11 +1,13 @@
 <template>
   <div class="wrapper">
     <div class="center">
-      <h1>Hi I'm Maruf Shafique</h1>
-      <p>UI/UX designer & full stack JavaScript developer</p>
+      <div ref="desc">
+        <h1 ref="title">Hi I'm Maruf Shafique</h1>
+        <p ref="para">UI/UX designer & full stack JavaScript developer</p>
+      </div>
       <transition name="slide" mode="out-in">
         <div class="spinner" v-if="!showBtn" key="spiner"></div>
-        <div v-else key="explore">
+        <div v-else key="explore" ref="explore">
           <div class="explore d-flex justify-content-center">
             <div class="d-flex explore-inner" @click="onExplore">
               <span>Start Exploring</span> 
@@ -21,12 +23,34 @@
 </template>
 
 <script>
+import anime from 'animejs';
+
 export default {
   props: ['showBtn'],
   methods: {
     onExplore() {
       this.$emit('changeLoaded', true);
-    }
+    },
+  },
+  mounted() {
+    let { title, para } = this.$refs;
+
+    anime({
+      targets: title,
+      translateY: ['-120px', '0px'],
+      duration: 1500,
+      opacity: [.5, 1],
+      easing: 'easeOutExpo'
+    })
+
+    anime({
+      targets: para,
+      translateY: ['-80px', '0px'],
+      delay: 200,
+      duration: 1300,
+      opacity: [.5, 1],
+      easing: 'easeOutExpo'
+    })
   }
 }
 </script>
@@ -62,8 +86,13 @@ export default {
   cursor: pointer;
 }
 
+.explore-inner:hover .play {
+  margin-left: 15px;
+  transition: all ease-in-out .3s;
+}
+
 .explore span {
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .play {
@@ -72,6 +101,7 @@ export default {
   border-radius: 50%;
   background: #666666;
   box-shadow: 0 0px 3px 0 rgba(255, 252, 252, 0.712);
+  transition: all ease-in-out .3s;
 }
 
 .material-icons {

@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <app-welcome 
-      v-show="!isLoaded" 
-      :showBtn="showBtn"
-      @changeLoaded="onLoadedChange"></app-welcome>
-    <router-view v-show="isLoaded"/>
+    <transition name="fade" mode="out-in">
+      <app-welcome 
+        v-if="!isLoaded" 
+        :showBtn="showBtn"
+        @changeLoaded="onLoadedChange"></app-welcome>
+      <router-view v-else/>
+    </transition>
   </div>
 </template>
 
@@ -36,24 +38,31 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-enter-active {
+  animation: fade-in .5s ease-in forwards;
+}
+
+.fade-leave-active {
+  animation: fade-out .5s ease-in forwards;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  background: #303030;
 }
 </style>
